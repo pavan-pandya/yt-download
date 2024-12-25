@@ -1,0 +1,32 @@
+import os
+from yt_dlp import YoutubeDL
+
+def download_playlist(playlist_url, download_folder):
+    try:
+        # Ensure the download folder exists
+        if not os.path.exists(download_folder):
+            os.makedirs(download_folder)
+
+        # Set download options
+        ydl_opts = {
+            'outtmpl': os.path.join(download_folder, '%(playlist_index)s - %(title)s.%(ext)s'),
+            'format': 'best[ext=mp4]/best',  # Download best MP4 format
+            'ignoreerrors': True,            # Continue even if some videos fail
+        }
+
+        print(f"Downloading videos to: {os.path.abspath(download_folder)}")
+        with YoutubeDL(ydl_opts) as ydl:
+            ydl.download([playlist_url])
+
+        print(f"Playlist download completed. Check the folder: {os.path.abspath(download_folder)}")
+
+    except Exception as e:
+        print(f"Error downloading playlist: {e}")
+
+
+if __name__ == "__main__":
+    playlist_url = input("Enter the YouTube playlist URL: ")
+    download_folder = input("Enter the folder to save downloaded videos (default: 'downloads'): ") or "downloads"
+
+    download_playlist(playlist_url, download_folder)
+//" Thanksfor using this tool"
